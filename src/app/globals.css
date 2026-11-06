@@ -1,26 +1,468 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =========================================
+   PAYWISE AI — GLOBAL FOUNDATION
+========================================= */
+
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* =========================================
+   THEME VARIABLES
+========================================= */
+
+.paywise-app {
+  --pw-bg: #f4f7fb;
+  --pw-surface: #ffffff;
+  --pw-surface-soft: #f8fafc;
+  --pw-text: #172033;
+  --pw-muted: #64748b;
+  --pw-border: #e2e8f0;
+  --pw-accent: #2563eb;
+  --pw-accent-hover: #1d4ed8;
+  --pw-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+
+  min-height: 100vh;
+  width: 100%;
+  color: var(--pw-text);
+  background: var(--pw-bg);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.paywise-app[data-theme="dark"] {
+  --pw-bg: #0b1120;
+  --pw-surface: #111c2f;
+  --pw-surface-soft: #17243a;
+  --pw-text: #e5edf8;
+  --pw-muted: #9aabc2;
+  --pw-border: #26364d;
+  --pw-accent: #60a5fa;
+  --pw-accent-hover: #3b82f6;
+  --pw-shadow: 0 8px 30px rgba(0, 0, 0, 0.16);
+}
+
+/* =========================================
+   REUSABLE COMPONENTS
+========================================= */
+
+.pw-card {
+  min-width: 0;
+  color: var(--pw-text);
+  background: var(--pw-surface);
+  border: 1px solid var(--pw-border);
+  border-radius: 16px;
+  box-shadow: var(--pw-shadow);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.pw-muted {
+  color: var(--pw-muted);
+}
+
+.pw-divider {
+  border-color: var(--pw-border);
+}
+
+.pw-primary-button {
+  background: var(--pw-accent);
+  color: #ffffff;
+  transition: background 0.2s ease;
+}
+
+.pw-primary-button:hover {
+  background: var(--pw-accent-hover);
+}
+
+.pw-input {
+  color: var(--pw-text);
+  background: var(--pw-surface-soft);
+  border: 1px solid var(--pw-border);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.pw-input:focus {
+  border-color: var(--pw-accent);
+}
+
+.pw-insight {
+  color: var(--pw-text);
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.pw-verdict {
+  color: white;
+  background: #172554;
+}
+
+.pw-message {
+  color: var(--pw-text);
+  background: var(--pw-surface-soft);
+}
+
+.pw-chip {
+  color: var(--pw-muted);
+  background: var(--pw-surface);
+  border-color: var(--pw-border);
+  transition: 0.2s ease;
+}
+
+.pw-chip:hover {
+  color: var(--pw-accent);
+  border-color: var(--pw-accent);
+}
+
+.pw-error {
+  padding: 16px;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.pw-sidebar {
+  width: 256px;
+  color: var(--pw-text);
+  background: var(--pw-surface);
+  border-color: var(--pw-border);
+}
+
+.pw-nav-button {
+  color: var(--pw-muted);
+  transition: 0.2s ease;
+}
+
+.pw-nav-button:hover {
+  color: var(--pw-text);
+  background: var(--pw-surface-soft);
+}
+
+.pw-sidebar-note {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.pw-header {
+  color: var(--pw-text);
+  background: var(--pw-surface);
+  border-color: var(--pw-border);
+}
+
+.pw-theme-toggle {
+  color: var(--pw-text);
+  background: var(--pw-surface);
+  border-color: var(--pw-border);
+}
+
+.pw-theme-toggle:hover {
+  background: var(--pw-surface-soft);
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+.paywise-app[data-theme="dark"] .pw-error {
+  color: #fca5a5;
+  background: #351b27;
+  border-color: #713044;
+}
+
+.paywise-app[data-theme="dark"] .pw-insight {
+  background: #172d4b;
+}
+
+.paywise-app[data-theme="dark"] .pw-verdict {
+  background: #172d4b;
+}
+
+.paywise-app[data-theme="dark"] .pw-sidebar-note {
+  background: #172d4b;
+}
+
+.paywise-app[data-theme="dark"] .pw-primary-button {
+  color: #ffffff;
+}
+
+.paywise-app[data-theme="dark"] .text-slate-900,
+.paywise-app[data-theme="dark"] .text-slate-800,
+.paywise-app[data-theme="dark"] .text-slate-700 {
+  color: var(--pw-text);
+}
+
+.paywise-app[data-theme="dark"] .text-slate-600,
+.paywise-app[data-theme="dark"] .text-slate-500,
+.paywise-app[data-theme="dark"] .text-slate-400 {
+  color: var(--pw-muted);
+}
+
+.paywise-app[data-theme="dark"] .border-slate-100,
+.paywise-app[data-theme="dark"] .border-slate-200 {
+  border-color: var(--pw-border);
+}
+
+/* =========================================
+   SAVED COMPARISON HISTORY
+========================================= */
+
+.history-section {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+  margin-top: 24px;
+}
+
+.history-save,
+.history-heading,
+.history-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.history-save {
+  padding: 18px;
+  border: 1px solid var(--pw-border);
+  border-radius: 14px;
+  background: var(--pw-surface);
+}
+
+.history-save h3,
+.history-card h3,
+.history-empty h3 {
+  margin: 0 0 5px;
+  color: var(--pw-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.history-save p,
+.history-heading p,
+.history-empty p {
+  margin: 0;
+  color: var(--pw-muted);
+  font-size: 13px;
+}
+
+.history-save-button,
+.history-clear,
+.history-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--pw-border);
+  border-radius: 9px;
+  padding: 10px 13px;
+  background: var(--pw-surface);
+  color: var(--pw-text);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.history-save-button {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.history-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 5px;
+  color: var(--pw-text);
+  font-size: 19px;
+}
+
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.history-card {
+  padding: 18px;
+  border: 1px solid var(--pw-border);
+  border-radius: 14px;
+  background: var(--pw-surface);
+  color: var(--pw-text);
+}
+
+.history-date {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--pw-muted);
+  font-size: 11px;
+}
+
+.history-delete {
+  padding: 9px;
+  color: #dc2626;
+}
+
+.history-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.history-results div {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.history-results span {
+  color: var(--pw-muted);
+  font-size: 12px;
+}
+
+.history-results strong {
+  color: var(--pw-text);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.history-verdict {
+  margin: 16px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--pw-border);
+  color: var(--pw-text);
+  font-size: 13px;
+}
+
+.history-empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 35px 15px;
+  border: 1px dashed var(--pw-border);
+  border-radius: 14px;
+  color: var(--pw-muted);
+  text-align: center;
+}
+
+.history-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #16a34a;
+  font-size: 13px;
+}
+
+.history-disclaimer {
+  color: var(--pw-muted);
+  font-size: 11px;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT
+========================================= */
+
+.paywise-app main {
+  min-width: 0;
+  width: 100%;
+}
+
+.paywise-app main > div {
+  min-width: 0;
+}
+
+.paywise-app section,
+.paywise-app article {
+  min-width: 0;
+}
+
+.paywise-app input,
+.paywise-app button {
+  max-width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .pw-sidebar {
+    width: min(280px, 85vw);
+  }
+
+  .paywise-app main {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .paywise-app header {
+    gap: 8px;
+  }
+
+  .history-save,
+  .history-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .history-results {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .history-save-button,
+  .history-clear {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
